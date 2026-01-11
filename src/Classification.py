@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -9,6 +11,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
 
 df = pd.read_csv("diamonds_clean_final.csv")
 
@@ -41,9 +44,6 @@ features = [
 
 X = df[features]
 
-
-
-
 # Проверяем есть ли NaN в х и у
 print("NaN in y:", y.isna().sum())
 print(y.value_counts(dropna=False))
@@ -58,7 +58,6 @@ print("NaN in y after cleaning:", y.isna().sum()) # Проверяем, что �
 
 # Проверяем распределение классов после очистки
 print(y.value_counts(normalize=True))
-
 
 # Кодирование категориальных признаков
 cat_features = [
@@ -75,8 +74,6 @@ num_features = [
     'enriched.ratio',
 ]
 
-
-
 # Заменяем пропуски (NaN) медианой этого признака
 numeric_transformer = Pipeline(steps=[
     ("imputer", SimpleImputer(strategy="median"))
@@ -89,7 +86,6 @@ categorical_transformer = Pipeline(steps=[
     ("onehot", OneHotEncoder(handle_unknown="ignore"))
 ])
 
-
 # результаты объединяются и передаются в модель классификации
 preprocessor = ColumnTransformer(
     transformers=[
@@ -97,7 +93,6 @@ preprocessor = ColumnTransformer(
         ("cat", categorical_transformer, cat_features),
     ]
 )
-
 
 # Train / Test split (Разделение набора на обучающую и тестовую выборку)
 
@@ -107,6 +102,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42,
     stratify=y     #Сохраняет одинаковое распределение классов в обучающей и тестовой выборках
 )
+
+
 
 # Decision Tree (Дерево решений)
 model_dt = Pipeline(steps=[
@@ -119,7 +116,6 @@ model_dt = Pipeline(steps=[
 
 model_dt.fit(X_train, y_train)
 
-
 # Проверяем, что пропуски в stone.cut.name были заменены на "Unknown"
 #feature_names = preprocessor.get_feature_names_out()
 #unknown_cut_features = [
@@ -128,9 +124,7 @@ model_dt.fit(X_train, y_train)
 #]
 #print(unknown_cut_features)
 
-
 # Метрики оценки качества
-
 y_pred = model_dt.predict(X_test)
 print(classification_report(
     y_test,
@@ -138,12 +132,7 @@ print(classification_report(
     labels=['Low', 'Medium', 'High']
 ))
 
-
 # confusion matrix (Матрица ошибок)
-from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 cm = confusion_matrix(
     y_test,
     y_pred,
@@ -170,15 +159,7 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
 # Random Forest (Случайный лес)
-
 model_rf = Pipeline(steps=[
     ('preprocess', preprocessor),
     ('model', RandomForestClassifier(
@@ -207,12 +188,7 @@ print(classification_report(
 
 
 
-
-
-
-
 # Gradient Boosting (Градиентный бустинг)
-
 model_gb = Pipeline(steps=[
     ('preprocess', preprocessor),
     ('model', GradientBoostingClassifier(
@@ -236,3 +212,4 @@ print(classification_report(
     y_pred_gb,
     labels=['Low', 'Medium', 'High']
 ))
+
