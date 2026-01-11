@@ -1,5 +1,7 @@
 #Работа с новым полученным файлом diamonds_balanced_50k.csv со всеми фоомами огранки
 import pandas as pd
+import matplotlib.pyplot as plt
+
 # Настройки отображения
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', None)
@@ -83,7 +85,6 @@ print(f"Итоговое количество столбцов: {df.shape[1]}")
 
 
 
-
 df = pd.read_csv('diamonds_balanced_50k_final.csv', sep=None, engine='python', encoding='utf-8')
 # Подсчёт пропусков по каждому столбцу
 missing = df.isna().sum().sort_values(ascending=False)
@@ -105,8 +106,6 @@ missing_table = missing_table.sort_values(by='Процент_пропусков'
 
 # Выводим ТОП-30 столбцов с наибольшим количеством пропусков
 print(missing_table.head(30))
-
-import matplotlib.pyplot as plt
 
 # Столбцы с более чем 25% пропусков
 missing_table_25 = missing_table[missing_table['Процент_пропусков'] > 25]
@@ -140,7 +139,6 @@ print(f"\nПосле очистки осталось {df_clean.shape[1]} сто�
 df_clean.to_csv('diamonds_clean_new.csv', index=False, encoding='utf-8')
 
 print("\nФайл 'diamonds_clean_new.csv' успешно сохранён.")
-
 
 
 
@@ -204,7 +202,6 @@ print("\nФайл 'diamonds_clean_new_2.csv' успешно сохранён.")
 
 
 
-
 #Проверка совпадений значений в столбцах с ценой
 df = pd.read_csv("diamonds_clean_new_2.csv", encoding="utf-8")
 
@@ -234,7 +231,6 @@ print("\nФайл 'diamonds_clean_new_3.csv' успешно сохранён.")
 
 
 
-
 df = pd.read_csv("diamonds_clean_new_3.csv", encoding="utf-8")
 # Заменяем столбец _id на простые номера строк, начиная с 1
 df["_id"] = range(1, len(df) + 1)
@@ -252,7 +248,6 @@ print("Файл primer.xlsx успешно сохранён")
 
 
 
-
 df = pd.read_csv("diamonds_clean_final.csv", encoding="utf-8")
 if 'stone.shape.name' in df.columns:
     # Уникальные значения
@@ -264,3 +259,4 @@ if 'stone.shape.name' in df.columns:
     print("\nЧастота встречаемости:")
 
     print(df['stone.shape.name'].value_counts())
+
