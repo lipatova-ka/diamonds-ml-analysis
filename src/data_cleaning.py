@@ -49,6 +49,7 @@ print("Итоговое количество столбцов:", df.shape[1])
 
 #True Hearts - собственная характерисика качества огранки, используемая на конткретной платформе Jamesallen
 #таких значений всего несколько, соответственно для анализа эти данные неинформативны
+
 df = pd.read_csv("diamonds_balanced_50k_1.csv", encoding="utf-8", low_memory=False)
 
 # Подсчёт строк с 'True Hearts' в stone.shape.name
@@ -86,6 +87,7 @@ print(f"Итоговое количество столбцов: {df.shape[1]}")
 
 
 df = pd.read_csv('diamonds_balanced_50k_final.csv', sep=None, engine='python', encoding='utf-8')
+
 # Подсчёт пропусков по каждому столбцу
 missing = df.isna().sum().sort_values(ascending=False)
 
@@ -232,6 +234,7 @@ print("\nФайл 'diamonds_clean_new_3.csv' успешно сохранён.")
 
 
 df = pd.read_csv("diamonds_clean_new_3.csv", encoding="utf-8")
+
 # Заменяем столбец _id на простые номера строк, начиная с 1
 df["_id"] = range(1, len(df) + 1)
 
@@ -249,6 +252,7 @@ print("Файл primer.xlsx успешно сохранён")
 
 
 df = pd.read_csv("diamonds_clean_final.csv", encoding="utf-8")
+
 if 'stone.shape.name' in df.columns:
     # Уникальные значения
     unique_shapes = df['stone.shape.name'].dropna().unique()
@@ -259,4 +263,5 @@ if 'stone.shape.name' in df.columns:
     print("\nЧастота встречаемости:")
 
     print(df['stone.shape.name'].value_counts())
+
 
