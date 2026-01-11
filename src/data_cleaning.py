@@ -20,7 +20,6 @@ print(df.info())
 print("\nНазвания столбцов:")
 print(df.columns.tolist())
 
-
 #UPP - платформенная (внутренняя) система ценового ориентирования
 #Проводим небольшую корректировку столбцов из-за особенностей выгрузки из корпоративной БД
 # Переименовываем enriched.uppInner -> enriched.UPP
@@ -45,8 +44,6 @@ df.to_csv('diamonds_balanced_50k_1.csv', index=False, encoding='utf-8')
 
 print("\nФайл 'diamonds_balanced_50k_1.csv' успешно сохранён.")
 print("Итоговое количество столбцов:", df.shape[1])
-
-
 
 #True Hearts - собственная характерисика качества огранки, используемая на конткретной платформе Jamesallen
 #таких значений всего несколько, соответственно для анализа эти данные неинформативны
@@ -265,4 +262,5 @@ if 'stone.shape.name' in df.columns:
 
     # Количество каждого значения
     print("\nЧастота встречаемости:")
+
     print(df['stone.shape.name'].value_counts())
