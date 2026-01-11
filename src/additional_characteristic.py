@@ -89,9 +89,6 @@ plt.title('Распределение уровней флуоресценции 
 plt.tight_layout()
 plt.show()
 
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 g = sns.catplot(
     data=df,
     x='stone.flour.name',
@@ -115,3 +112,4 @@ for ax in g.axes.flatten():
     ax.tick_params(axis='x', rotation=45)
 
 plt.show()
+
