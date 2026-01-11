@@ -12,8 +12,10 @@
 - matplotlib
 
 ## Структура проекта
-- src/eda.py — разведочный анализ данных
-- src/preprocessing.py — предобработка данных
+- src/main.py — формирование сбалансированной выборки, используемой на последующих этапах анализа
+- src/data_cleaning.py — очистка и предварительная обработка данных
+- src/eda_chapter_3.py — разведочный анализ
+- src/additional_characteristic.py — анализ дополнительных характеристик (Fluor, Symmetry, Polish)
 - src/classification.py — модели классификации
 - src/clustering.py — методы кластеризации
 
