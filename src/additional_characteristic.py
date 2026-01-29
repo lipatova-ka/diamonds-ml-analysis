@@ -7,6 +7,7 @@ df = pd.read_csv("diamonds_clean_final.csv")
 
 df['log_price'] = np.log(df['price'])
 
+
 #Fluor
 plt.figure(figsize=(8, 5))
 fluor_order = ['SB', 'S', 'MB', 'M', 'F', 'SLT', 'NEG', 'NN']
@@ -25,6 +26,21 @@ plt.xticks(rotation=30)
 plt.tight_layout()
 plt.show()
 
+
+plt.figure(figsize=(8, 5))
+sns.pointplot(
+    data=df,
+    x='stone.flour.name',
+    y='log_price',
+    order=fluor_order,
+    estimator=np.median,
+    errorbar=('ci', 95)
+)
+plt.title('Медианное значение логарифма цены по уровню флуоресценции')
+plt.xlabel('Fluor')
+plt.ylabel('log(Price)')
+plt.tight_layout()
+plt.show()
 
 
 #Symmetry
@@ -46,6 +62,21 @@ plt.tight_layout()
 plt.show()
 
 
+df['price_q'] = pd.qcut(df['log_price'], q=5, labels=False)
+ct = pd.crosstab(
+    df['stone.symmetry.name'],
+    df['price_q'],
+    normalize='index'
+)
+ct = ct.reindex(symmetry_order)
+plt.figure(figsize=(8, 5))
+sns.heatmap(ct, annot=True, cmap='Blues', fmt='.2f')
+plt.title('Распределение категорий симметрии по ценовым квантилям')
+plt.xlabel('Квантиль цены')
+plt.ylabel('Symmetry')
+plt.tight_layout()
+plt.show()
+
 
 #Polish
 plt.figure(figsize=(8, 5))
@@ -65,6 +96,20 @@ plt.xticks(rotation=30)
 plt.tight_layout()
 plt.show()
 
+
+plt.figure(figsize=(9, 5))
+sns.kdeplot(
+    data=df,
+    x='log_price',
+    hue='stone.polish.name',
+    common_norm=False,
+    fill=True,
+    alpha=0.3
+)
+plt.title('Перекрытие распределений log(Price) по категориям полировки')
+plt.xlabel('log(Price)')
+plt.tight_layout()
+plt.show()
 
 
 #Связь Fluor и Color
@@ -89,6 +134,9 @@ plt.title('Распределение уровней флуоресценции 
 plt.tight_layout()
 plt.show()
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 g = sns.catplot(
     data=df,
     x='stone.flour.name',
@@ -112,4 +160,3 @@ for ax in g.axes.flatten():
     ax.tick_params(axis='x', rotation=45)
 
 plt.show()
-
